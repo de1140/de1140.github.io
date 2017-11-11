@@ -34,10 +34,10 @@
     	pathred.addEventListener("click", function() {
       		onred = !onred;
       		if (onred) {
-        		path.style.fill="red";
+        		pathred.style.fill="red";
         		Puck.write('LED1.set();\n');
       		} else {
-        		path.style.fill="#444";
+        		pathred.style.fill="#444";
         		Puck.write('LED1.reset();\n');
       		}
     	});
@@ -45,10 +45,10 @@
     	pathgreen.addEventListener("click", function() {
       		ongreen = !ongreen;
       		if (ongreen) {
-        		path.style.fill="green";
+        		pathgreen.style.fill="green";
         		Puck.write('LED2.set();\n');
       		} else {
-        		path.style.fill="#444";
+        		pathgreen.style.fill="#444";
         		Puck.write('LED2.reset();\n');
       		}
     	});
@@ -56,10 +56,10 @@
     	pathwhite.addEventListener("click", function() {
       		onwhite = !onwhite;
       		if (onwhite) {
-        		path.style.fill="white";
+        		pathwhite.style.fill="white";
         		Puck.write('LED3.set();\n');
       		} else {
-        		path.style.fill="#444";
+        		pathwhite.style.fill="#444";
         		Puck.write('LED3.reset();\n');
       		}
     	});
