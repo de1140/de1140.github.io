@@ -8,9 +8,9 @@
        display:block; 
        /*position:absolute;
        top:0%; 
-       left:0%; */
-       width:100%; 
-       height:100%;
+       left:0%;*/
+       width:10%; 
+       height:10%;
      }
    </style>
     <script src="https://www.puck-js.com/puck.js"></script>
@@ -19,14 +19,21 @@
       function setup(){
 	// Get the actual curve inside the SVG. You could make different
 	// parts of a more complex SVG do different things...
-	var path = document.getElementsByTagName('path')[0];
+	var pathred = document.getElementById('ledred');
+	var pathgreen = document.getElementById('ledgreen');
+	var pathwhite = document.getElementById('ledwhite');
     	// Make sure your mouse cursor turns into a hand when over it, and gray it out
-    	path.style="cursor:pointer;fill:#BBB";
+    	pathred.style="cursor:pointer;fill:#BBB";
+    	pathgreen.style="cursor:pointer;fill:#BBB";
+    	pathwhite.style="cursor:pointer;fill:#BBB";
     	// Now send commands to turn the LED on or off
-    	var on = false;
-    	path.addEventListener("click", function() {
-      		on = !on;
-      		if (on) {
+    	var onred = false;
+    	var ongreen = false;
+    	var onwhite = false;
+
+    	pathred.addEventListener("click", function() {
+      		onred = !onred;
+      		if (onred) {
         		path.style.fill="red";
         		Puck.write('LED1.set();\n');
       		} else {
@@ -34,17 +41,46 @@
         		Puck.write('LED1.reset();\n');
       		}
     	});
+
+    	pathgreen.addEventListener("click", function() {
+      		ongreen = !ongreen;
+      		if (ongreen) {
+        		path.style.fill="green";
+        		Puck.write('LED2.set();\n');
+      		} else {
+        		path.style.fill="#444";
+        		Puck.write('LED2.reset();\n');
+      		}
+    	});
+
+    	pathwhite.addEventListener("click", function() {
+      		onwhite = !onwhite;
+      		if (onwhite) {
+        		path.style.fill="white";
+        		Puck.write('LED3.set();\n');
+      		} else {
+        		path.style.fill="#444";
+        		Puck.write('LED3.reset();\n');
+      		}
+    	});
       };
+
       window.addEventListener("load", setup);
    </script>
  </head>
  <body>
    <div>
-    <h1>First Puck Web Example</h1>
+    <h1>First Puck Web Example - </h1>
     </div>
    <div> 
      <svg viewBox="0 0 24 24">
-    <path fill="#000000" d="M12,2A7,7 0 0,0 5,9C5,11.38 6.19,13.47 8,14.74V17A1,1 0 0,0 9,18H15A1,1 0 0,0 16,17V14.74C17.81,13.47 19,11.38 19,9A7,7 0 0,0 12,2M9,21A1,1 0 0,0 10,22H14A1,1 0 0,0 15,21V20H9V21Z" />
+    <path id="ledred" fill="#000000" d="M12,2A7,7 0 0,0 5,9C5,11.38 6.19,13.47 8,14.74V17A1,1 0 0,0 9,18H15A1,1 0 0,0 16,17V14.74C17.81,13.47 19,11.38 19,9A7,7 0 0,0 12,2M9,21A1,1 0 0,0 10,22H14A1,1 0 0,0 15,21V20H9V21Z" />
+     </svg>
+     <svg viewBox="0 0 24 24">
+    <path id="ledgreen" fill="#000000" d="M12,2A7,7 0 0,0 5,9C5,11.38 6.19,13.47 8,14.74V17A1,1 0 0,0 9,18H15A1,1 0 0,0 16,17V14.74C17.81,13.47 19,11.38 19,9A7,7 0 0,0 12,2M9,21A1,1 0 0,0 10,22H14A1,1 0 0,0 15,21V20H9V21Z" />
+     </svg>
+     <svg viewBox="0 0 24 24">
+    <path id="ledwhite" fill="#000000" d="M12,2A7,7 0 0,0 5,9C5,11.38 6.19,13.47 8,14.74V17A1,1 0 0,0 9,18H15A1,1 0 0,0 16,17V14.74C17.81,13.47 19,11.38 19,9A7,7 0 0,0 12,2M9,21A1,1 0 0,0 10,22H14A1,1 0 0,0 15,21V20H9V21Z" />
      </svg>
    </div>
  </body>
