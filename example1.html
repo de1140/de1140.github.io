@@ -15,6 +15,8 @@
    </style>
     <script src="https://www.puck-js.com/puck.js"></script>
    <script type="text/javascript">
+       
+      function setup(){
 	// Get the actual curve inside the SVG. You could make different
 	// parts of a more complex SVG do different things...
 	var path = document.getElementsByTagName('path')[0];
@@ -32,6 +34,8 @@
         		Puck.write('LED1.reset();\n');
       		}
     	});
+      };
+      window.addEventListener("load", setup);
    </script>
  </head>
  <body>
