@@ -3,33 +3,45 @@
  <head>
    <style>
      div {color: blue; }
+     .header {color: white;
+             background-color:blue;
+             width: 400px;}
+     .header2 {color: blue;
+             background-color:white;
+             width: 400px;}
      body { margin:0;  }
      svg {
-       display:block; 
-       /*position:absolute;
+       /*display:block; 
+       position:absolute;
        top:0%; 
        left:0%;*/
        width:10%; 
        height:10%;
      }
    </style>
-    <script src="https://www.puck-js.com/puck.js"></script>
-   <script type="text/javascript">
+   <script src="https://www.puck-js.com/puck.js"></script>
+   <script>
        
       function setup(){
 	// Get the actual curve inside the SVG. You could make different
 	// parts of a more complex SVG do different things...
 	var pathred = document.getElementById('ledred');
 	var pathgreen = document.getElementById('ledgreen');
-	var pathwhite = document.getElementById('ledwhite');
+	var pathblue = document.getElementById('ledblue');
+        var buttontemp = document.getElementById('buttontemp');
+        var buttonlight = document.getElementById('buttonlight');
+        var buttonvolt = document.getElementById('buttonvolt');
+        var buttonpct = document.getElementById('buttonpct');
+
     	// Make sure your mouse cursor turns into a hand when over it, and gray it out
     	pathred.style="cursor:pointer;fill:#BBB";
     	pathgreen.style="cursor:pointer;fill:#BBB";
-    	pathwhite.style="cursor:pointer;fill:#BBB";
+    	pathblue.style="cursor:pointer;fill:#BBB";
+
     	// Now send commands to turn the LED on or off
     	var onred = false;
     	var ongreen = false;
-    	var onwhite = false;
+    	var onblue = false;
 
     	pathred.addEventListener("click", function() {
       		onred = !onred;
@@ -37,7 +49,7 @@
         		pathred.style.fill="red";
         		Puck.write('LED1.set();\n');
       		} else {
-        		pathred.style.fill="#444";
+        		pathred.style.fill="#BBB";
         		Puck.write('LED1.reset();\n');
       		}
     	});
@@ -48,31 +60,97 @@
         		pathgreen.style.fill="green";
         		Puck.write('LED2.set();\n');
       		} else {
-        		pathgreen.style.fill="#444";
+        		pathgreen.style.fill="#BBB";
         		Puck.write('LED2.reset();\n');
       		}
     	});
 
-    	pathwhite.addEventListener("click", function() {
-      		onwhite = !onwhite;
-      		if (onwhite) {
-        		pathwhite.style.fill="white";
+    	pathblue.addEventListener("click", function() {
+      		onblue = !onblue;
+      		if (onblue) {
+        		pathblue.style.fill="blue";
         		Puck.write('LED3.set();\n');
       		} else {
-        		pathwhite.style.fill="#444";
+        		pathblue.style.fill="#BBB";
         		Puck.write('LED3.reset();\n');
       		}
     	});
-      };
 
+
+        // When clicked, start trying to get the light value
+        buttontemp.addEventListener("click", function() {
+          getTemperature();
+        });
+
+       buttonlight.addEventListener("click", function() {
+          getLightValue();
+        });
+
+       buttonvolt.addEventListener("click", function() {
+          getVoltage();
+        });
+
+       buttonpct.addEventListener("click", function() {
+          getBatteryPct();
+        });
+
+
+      function getTemperature() {
+        Puck.eval("E.getTemperature()", function(v) {
+          document.getElementById("myTemp").innerHTML = v;
+          setTimeout(function() {
+            getTemperature();
+          }, 1000);
+        });
+      }
+
+
+      function getLightValue() {
+        Puck.eval("Puck.light()", function(v) {
+          document.getElementById("myLight").innerHTML = v;
+          setTimeout(function() {
+            getLightValue();
+          }, 250);
+        });
+       }
+
+      function getVoltage() {
+        Puck.eval("NRF.getBattery()", function(v) {
+          document.getElementById("myVolt").innerHTML = v;
+          setTimeout(function() {
+            getVoltage();
+          }, 250);
+        });
+      }
+
+      function getBatteryPct() {
+        Puck.eval("Puck.getBatteryPercentage()", function(v) {
+          document.getElementById("myPCT").innerHTML = v;
+          setTimeout(function() {
+            getBatteryPct();
+          }, 250);
+        });
+      }
+
+     }
+   
       window.addEventListener("load", setup);
    </script>
  </head>
  <body>
    <div>
-    <h1>First Puck Web Example - </h1>
+    <h1>First Puck Web Example</h1>
     </div>
+   <div>
+	<h2 class="header">Puck measurements</h2>
+        <p ><button id="buttontemp">Get Temperature Value</button>   <span id="myTemp">-1</span> C</p>
+        <p ><button id="buttonlight">Get Light Value</button>   <span id="myLight">-1</span></p>
+        <p ><button id="buttonvolt">Get Battery Voltage</button>   <span id="myVolt">-1</span> V</p>
+        <p ><button id="buttonpct">Get Battery Percentage</button>  <span id="myPCT">-1</span> PCT</p>
+   </div>
+
    <div> 
+         <h2 class="header">Colours with Puck</h2>
      <svg viewBox="0 0 24 24">
     <path id="ledred" fill="#000000" d="M12,2A7,7 0 0,0 5,9C5,11.38 6.19,13.47 8,14.74V17A1,1 0 0,0 9,18H15A1,1 0 0,0 16,17V14.74C17.81,13.47 19,11.38 19,9A7,7 0 0,0 12,2M9,21A1,1 0 0,0 10,22H14A1,1 0 0,0 15,21V20H9V21Z" />
      </svg>
@@ -80,7 +158,7 @@
     <path id="ledgreen" fill="#000000" d="M12,2A7,7 0 0,0 5,9C5,11.38 6.19,13.47 8,14.74V17A1,1 0 0,0 9,18H15A1,1 0 0,0 16,17V14.74C17.81,13.47 19,11.38 19,9A7,7 0 0,0 12,2M9,21A1,1 0 0,0 10,22H14A1,1 0 0,0 15,21V20H9V21Z" />
      </svg>
      <svg viewBox="0 0 24 24">
-    <path id="ledwhite" fill="#000000" d="M12,2A7,7 0 0,0 5,9C5,11.38 6.19,13.47 8,14.74V17A1,1 0 0,0 9,18H15A1,1 0 0,0 16,17V14.74C17.81,13.47 19,11.38 19,9A7,7 0 0,0 12,2M9,21A1,1 0 0,0 10,22H14A1,1 0 0,0 15,21V20H9V21Z" />
+    <path id="ledblue" fill="#000000" d="M12,2A7,7 0 0,0 5,9C5,11.38 6.19,13.47 8,14.74V17A1,1 0 0,0 9,18H15A1,1 0 0,0 16,17V14.74C17.81,13.47 19,11.38 19,9A7,7 0 0,0 12,2M9,21A1,1 0 0,0 10,22H14A1,1 0 0,0 15,21V20H9V21Z" />
      </svg>
    </div>
  </body>
